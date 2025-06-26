@@ -7,6 +7,7 @@
 - proxypass 處理請求，timer 處理健康檢查
 - 提供 healthPath / llmCheckPath 參數用於檢查端點健康與 LLM 響應速度
 - 最小 token 測量 API 延遲
+- Email 故障通知
 
 ```mermaid
 graph TD
