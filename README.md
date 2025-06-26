@@ -5,28 +5,27 @@
 - 動態調整 MaxConn
 - 故障/超時立即降級，0 延遲重試下個後端
 - proxypass 處理請求，timer 處理健康檢查
-- 提供 `healthPath` / `llmCheckPath` 參數用於提供自訂路徑檢查健康與 LLM 響應速度
-- `llmCheckPath`: 最小 token 測量 API 延遲
-- 故障 Email 通知
+- 提供 healthPath / llmCheckPath 參數用於檢查端點健康與 LLM 響應速度
+- 最小 token 測量 API 延遲
 
 ```mermaid
 graph TD
  A[請求] --> B{健康列表是否為空}
- B -->|是| B1[回傳 503]
+ B -->|是<br>503| Z[請求完成]
  B -->|否| B2[選擇後端]
  
  B2 --> C{檢查 MaxConn}
  C -->|Conn < MaxConn<br>conn++| C1{15秒內收到響應?}
- C -->|Conn >= MaxConn<br>下一個| B2
+ C -->|Conn >= MaxConn<br>下一個| D
  
  C1 -->|成功<br/>conn--| C11[轉發至客戶端]
  C1 -->|超時/錯誤<br/>立即降級| C12[移至故障列表]
  
  C12 --> D{健康列表為空?}
  D -->|否<br>下一個| B2
- D -->|是| Z
+ D -->|是<br>503| Z
  
- C11 --> Z[請求完成]
+ C11 --> Z
  
  JJ -.-> B2
  NN -.-> B2
