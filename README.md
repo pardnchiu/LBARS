@@ -1,3 +1,5 @@
+# LBARS - Load Balancer with Adaptive Recovery Sentry
+
 - 1 分鐘健康檢查 / 10 分鐘故障恢復 / 5 分鐘 MaxConn 動態調整
 - 請求時間 + Ping延遲 + 響應速度 + LLM 延遲加權計算
 - 連線池
