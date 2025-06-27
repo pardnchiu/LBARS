@@ -1,5 +1,6 @@
 # LBARS - Load Balancer with Adaptive Recovery Sentry
 
+## 功能規劃
 - 1 分鐘健康檢查 / 10 分鐘故障恢復 / 5 分鐘 MaxConn 動態調整
 - 請求時間 + Ping延遲 + 響應速度 + LLM 延遲加權計算
 - 連線池
@@ -11,6 +12,31 @@
 - 最小 token 測量 API 延遲
 - Email 故障通知
 
+## 指令規劃
+- `lbars start --port {PORT}`<br>
+    - 尚未啟動實例：啟動一個 {PORT} 的實例
+    - 已有實例，詢問「目前已經有｛當前PORT｝的實例，是否更換 PORT 至 8000？」
+        - `yes / y`：重啟並更換 PORT
+        - `no`（預設）：不做任何動作
+- `lbars stop`<br>
+    關閉當前實例，如果當前沒實例則略過
+- `lbars status`<br>
+    當前實例的健康狀態
+- `lbars monit`<br>
+    顯示狀態（類似 pm2 monit）
+- `lbars add`<br>
+    增加後端端點，依序詢問以下問題
+    1. 後端位置？
+    2. 健康檢查路徑？
+    3. llm 推理路徑？
+- `lbars list`<br>
+    列出全部後端
+- `lbars rm {ID}`<br>
+    移除後端
+- `lbars flush`<br>
+    強制健康檢查
+
+## 流程
 ```mermaid
 graph TD
  A[請求] --> B{健康列表是否為空}
